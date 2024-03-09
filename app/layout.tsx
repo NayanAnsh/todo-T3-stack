@@ -1,6 +1,13 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
+import { ColorSchemeScript, MantineProvider } from "@mantine/core";
+import "@mantine/core/styles.css";
+import { GoPlusCircle } from "react-icons/go";
+
+import { Avatar } from "@mantine/core";
+import Button from "@/components/Button";
+import { BsPlusCircleDotted } from "react-icons/bs";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -16,7 +23,37 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body className={inter.className}>{children}</body>
+      <head>
+        <ColorSchemeScript />
+      </head>
+      <body className="w-full flex  ">
+        <MantineProvider>
+          <div className="flex w-full ">
+            <div className="w-1/3 border-r-2 h-screen ">
+              <div id="Profile" className=" border-b-2 m-2 flex space-x-4 p-8">
+                <Avatar radius="lg" size="lg" />
+                <div className="flex  justify-center flex-col">
+                  <p>Nayan ansh singh</p>
+                  <p>Premium</p>
+                </div>
+              </div>
+              <div className="relative  ">
+                <div className="flex overflow-y-auto overflow-x-hidden  space-y-2 items-center w-full flex-col ">
+                  <Button label="Tasks" />
+                  <Button label="Calender" />
+                  <Button label="Task 1" />
+                  <Button label="Task 2" />
+                  <Button>
+                    <BsPlusCircleDotted size={30} />
+                  </Button>
+                </div>
+              </div>
+            </div>
+
+            <div className="w-full h-full">{children}</div>
+          </div>
+        </MantineProvider>
+      </body>
     </html>
   );
 }
