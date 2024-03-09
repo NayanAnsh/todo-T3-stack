@@ -16,6 +16,9 @@ import {
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
 import { RegisterUser } from '@/actions/register';
+import { OnClick } from '@/actions/socialLogin';
+import { FcGoogle } from 'react-icons/fc';
+import { FaGithub } from 'react-icons/fa';
 
 
 const Login_page = () => {
@@ -85,6 +88,24 @@ const Login_page = () => {
       <Button type="submit">Submit</Button>
     </form>
   </Form>
+  <Button
+        size="lg"
+        variant="outline"
+        onClick={() => {
+          OnClick("google");
+        }}
+      >
+        <FcGoogle className="h-5 w-5" />
+      </Button>
+      <Button
+        size="lg"
+        variant="outline"
+        onClick={() => {
+          OnClick("github");
+        }}
+      >
+        <FaGithub className="h-5 w-5" />
+      </Button>
   </div>
   )
 }
