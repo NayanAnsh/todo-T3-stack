@@ -4,8 +4,7 @@ import NextAuth from "next-auth"
 
 export default auth((req) => {
     
-  console.log("AUth matched!!!")
-  console.log(req.auth)
+  
 })
 
 // Optionally, don't invoke Middleware on some paths

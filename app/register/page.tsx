@@ -32,7 +32,7 @@ const Login_page = () => {
       function onSubmit(values: z.infer<typeof RegisterSchema>) {
         // Do something with the form values.
         // ✅ This will be type-safe and validated.
-        console.log(values)
+        (values)
         RegisterUser(values)
       }
   return (

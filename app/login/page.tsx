@@ -34,7 +34,6 @@ const Login_page = () => {
         // ✅ This will be type-safe and validated.
         
         login(values)
-        console.log("Submit")
         console.log(values)
       }
   return (
