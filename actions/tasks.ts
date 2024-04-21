@@ -1,6 +1,7 @@
 "use server";
 import { db } from "@/lib/db";
-import { TaskFormSchema, TaskSchema } from "@/schemas/TaskSchema";
+import { stringError } from "@/schemas/ErrorsSchema";
+import { TaskSchema, TasksSchema } from "@/schemas/TaskSchema";
 import { z } from "zod";
 
 export const getTasksByFolderName = async (folderName: string) => {
@@ -10,6 +11,25 @@ export const getTasksByFolderName = async (folderName: string) => {
     return res;
   } catch (error) {
     console.log(error);
+  }
+};
+export const getAllTaskOfUser = async (
+  userUid: string | undefined
+): Promise<z.infer<typeof TasksSchema> | z.infer<typeof stringError>> => {
+  try {
+    if (!userUid) return { error: "Please log in" };
+    const res = await db.task.findMany({
+      where: { userUid: userUid },
+    });
+    console.log(res);
+    const response = TasksSchema.safeParse(res);
+    if (!response.success) {
+      return { error: "No tasks found" };
+    }
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return { error: "Server error" };
   }
 };
 export const updateTaskStatus = async ({
@@ -41,8 +61,32 @@ export const updateTaskStatus = async ({
     console.log(error);
   }
 };
+export const updateTaskBothStatus = async ({
+  doneVal,
+  pendingVal,
+  taskId,
+}: {
+  doneVal: boolean;
+  pendingVal: boolean;
+  taskId: string;
+}) => {
+  try {
+    const res = await db.task.update({
+      where: { id: taskId },
+      data: { isPending: pendingVal, isDone: doneVal },
+    });
+    console.log("1234567");
+    console.log(res);
+    return res;
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const addTastToUser = async (values: z.infer<typeof TaskSchema>) => {
   const validatedFields = TaskSchema.safeParse(values);
+  console.log("-------+++====");
+  console.log(values);
   if (!validatedFields.success) {
     console.log(validatedFields.error);
     console.log("Type script failed");
@@ -59,7 +103,7 @@ export const addTastToUser = async (values: z.infer<typeof TaskSchema>) => {
         name: data.name,
         repeat: data.repeat,
         startDate: data.startDate,
-        userUid: data.userid,
+        userUid: data.userUid,
         createdDate: data.createdDate,
         folderName: data.folderName,
         tags: data.tags ?? undefined,

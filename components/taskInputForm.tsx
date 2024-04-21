@@ -52,12 +52,13 @@ const TaskInput = ({ folderName }: { folderName: string }) => {
   });
   useEffect(() => {
     const func = async () => {
+      console.log(endDate);
       const data = await getAuth();
       setSession(data);
     };
     func();
     return;
-  }, [auth]);
+  }, [auth, endDate]);
 
   function onSubmit(values: z.infer<typeof TaskFormSchema>) {
     // Do something with the form values.
@@ -71,9 +72,10 @@ const TaskInput = ({ folderName }: { folderName: string }) => {
       ...values,
 
       createdDate: new Date(new Date().toISOString().split("T")[0]),
-      userid: session?.user.id as string,
+      userUid: session?.user.id as string,
       folderName: folderName as string,
     };
+    additionalData.endDate = new Date(endDate);
     // @ts-ignore //The code is wroking properly
     addTastToUser(additionalData);
   }
@@ -90,9 +92,7 @@ const TaskInput = ({ folderName }: { folderName: string }) => {
                 <FormControl>
                   <Input placeholder="shadcn" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -106,9 +106,7 @@ const TaskInput = ({ folderName }: { folderName: string }) => {
                 <FormControl>
                   <Input placeholder="shadcn" {...field} />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -123,14 +121,11 @@ const TaskInput = ({ folderName }: { folderName: string }) => {
                   <Input
                     type="date"
                     {...field}
-                    placeholder={new Date().toISOString()}
                     value={startDate}
                     onChange={(e) => setStartDate(e.target?.value)}
                   />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -145,14 +140,11 @@ const TaskInput = ({ folderName }: { folderName: string }) => {
                   <Input
                     type="date"
                     {...field}
-                    placeholder={new Date().toISOString()}
                     value={endDate}
                     onChange={(e) => setEndDate(e.target?.value)}
                   />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -171,9 +163,7 @@ const TaskInput = ({ folderName }: { folderName: string }) => {
                     <option value="monthly">Monthly</option>
                   </select>
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}
@@ -191,9 +181,7 @@ const TaskInput = ({ folderName }: { folderName: string }) => {
                     placeholder="tags"
                   />
                 </FormControl>
-                <FormDescription>
-                  This is your public display name.
-                </FormDescription>
+
                 <FormMessage />
               </FormItem>
             )}

@@ -1,14 +1,10 @@
-import { getFoldersByUser } from "@/actions/folder";
 import { getTasksByFolderName } from "@/actions/tasks";
+import AddTask from "@/components/AddTask";
 import TaskCheckBox from "@/components/TaskCheckBox";
-import TaskInput from "@/components/taskInputForm";
-import { Checkbox } from "@/components/ui/checkbox";
-import { TaskSchema } from "@/schemas/TaskSchema";
-import { useSearchParams } from "next/navigation";
-import { z } from "zod";
 
 const Login_page = async ({ params }: { params: { slug: string } }) => {
   const { slug } = params;
+  //const [opened, { open, close }] = useDisclosure(false);
 
   let tasks;
   if (slug != null) {
@@ -16,7 +12,6 @@ const Login_page = async ({ params }: { params: { slug: string } }) => {
   }
   // useEffect(()=>{
   //     const func = async ()=>{
-
   //         console.log(data)
   //         setTask(data)
   //     }
@@ -89,7 +84,7 @@ const Login_page = async ({ params }: { params: { slug: string } }) => {
           No tasks available.
         </div>
       )}
-      {slug && <TaskInput folderName={slug.toString()} />}
+      <AddTask folderName={slug.toString()} />
     </div>
   );
 };

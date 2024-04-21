@@ -17,6 +17,7 @@ const TaskCheckBox = ({
   console.log("sdf");
   const handleCheckBoxClick = () => {
     console.log("dsfsf");
+    setCheckBoxValue(!checkboxValue);
     startTransion(async () => {
       console.log(checkboxValue);
       await updateTaskStatus({
@@ -24,7 +25,6 @@ const TaskCheckBox = ({
         value: !checkboxValue,
         taskId: taskId,
       });
-      setCheckBoxValue(!checkboxValue);
     });
   };
   return (
@@ -42,7 +42,7 @@ const TaskCheckBox = ({
         htmlFor={`bordered-checkbox-${targetStatus}`}
         className="w-full cursor-pointer py-4 ms-2 text-[8px] md:text-sm font-medium text-testhighLight-500 "
       >
-        {targetStatus == "isDone" ? "Done" : "add to pending list"}
+        {targetStatus == "isDone" ? "Done" : "Ongoing"}
       </label>
     </div>
   );

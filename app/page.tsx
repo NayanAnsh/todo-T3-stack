@@ -1,10 +1,14 @@
+import { getAllTaskOfUser } from "@/actions/tasks";
 import { auth, signOut } from "@/auth";
 import Button from "@/components/Button";
 import MenuButton from "@/components/menuButton";
 import PaginationComponent from "@/components/pagination";
 import Pagination from "@/components/pagination";
+import TasksDnd from "@/components/tasksDnd";
+import { TaskFormSchema, TaskSchema, TasksSchema } from "@/schemas/TaskSchema";
 import Image from "next/image";
 import Link from "next/link";
+import { z } from "zod";
 const handleSignOut = async () => {
   "use server";
   console.log("clicked");
@@ -15,13 +19,11 @@ const Home = async ({
   searchParams,
 }: {
   searchParams: { [key: string]: string | undefined };
-
 }) => {
-
-
   const session = await auth();
-  
- 
+  const tasks = await getAllTaskOfUser(session?.user?.id);
+
+  console.log(tasks);
 
   return (
     <main className="h-full ">
@@ -43,42 +45,8 @@ const Home = async ({
               )}
             </div>
           </div>
-          <div className="flex w-full px-4  space-x-2 items-center    ">
-            <p>Filter:</p>
-            <div className="flex space-x-2">
-              <MenuButton label="All" />
-              <MenuButton label="H.W" />
-              <MenuButton label="Study" />
-              <MenuButton label="Health" />
-            </div>
-          </div>
         </div>
-
-        <div className="h-full">
-          <div className="flex p-8 w-full text-center justify-between ">
-            <div className="w-full">
-              <div className="flex  flex-col space-y-2 items-center">
-                <p>Pending</p>
-
-                <Button label="df" />
-              </div>
-            </div>
-            <div className="w-full">
-              <div className="flex  flex-col space-y-2 items-center">
-                <p>Ongoing</p>
-
-                <Button label="df" />
-              </div>
-            </div>
-            <div className="w-full">
-              <div className="flex  flex-col space-y-2 items-center">
-                <p>Done</p>
-
-                <Button label="df" />
-              </div>
-            </div>
-          </div>
-        </div>
+        {session?.user?.id && <TasksDnd userUid={session?.user?.id} />}
       </div>
     </main>
   );
